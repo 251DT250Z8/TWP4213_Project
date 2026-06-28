@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>GeckoStore - Manage Product</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <input type="checkbox" id="admin-state" style="display: none;">
+    <input type="checkbox" id="customer-state" style="display: none;">
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo default-logo">GeckoStore</a>
+            <a href="dashboard.html" class="logo customer-logo">GeckoStore</a>
+            <a href="admin-dashboard.html" class="logo admin-logo">GeckoStore</a>
+            <nav>
+                <ul>
+                    <li class="logged-in-nav"><a href="dashboard.html">Dashboard</a></li>
+                    <li class="admin-panel-nav"><a href="admin-dashboard.html">Dashboard</a></li>
+
+                    <li class="customer-hide public-nav"><a href="index.html">Home</a></li>
+                    <li class="public-nav"><a href="about.html">About Us</a></li>
+                    <li class="public-nav"><a href="products.html">Products</a></li>
+                    <li class="public-nav"><a href="contact.html">Contact</a></li>
+                    <li class="guest-nav"><a href="login.html" class="btn" style="padding: 0.5rem 1.5rem;">Login</a>
+                    </li>
+
+                    <li class="logged-in-nav"><a href="cart.html">Cart</a></li>
+                    <li class="logged-in-nav"><a href="profile.html">Profile</a></li>
+                    <li class="logged-in-nav"><a href="javascript:void(0)" onclick="window.handleLogout()"
+                            style="color: #fca5a5;">Logout</a></li>
+
+                    <li class="admin-panel-nav"><a href="manage-product.html">Products</a></li>
+                    <li class="admin-panel-nav"><a href="manage-order.html">Orders</a></li>
+                    <li class="admin-panel-nav"><a href="manage-member.html">Customers</a></li>
+                    <li class="admin-panel-nav"><a href="manage-category.html">Categories</a></li>
+                    <li class="admin-panel-nav"><a href="manage-admin.html">Admins</a></li>
+                    <li class="admin-panel-nav"><a href="sales-report.html">Reports</a></li>
+                    <li class="admin-panel-nav"><a href="profile.html">Profile</a></li>
+                    <li class="admin-panel-nav"><a href="javascript:void(0)" onclick="window.handleLogout()"
+                            style="color: #fca5a5;">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="main-content">
+        <section class="page-section">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                <h2>Manage Products</h2>
+                <button type="button" class="btn"
+                    onclick="document.getElementById('add-product-modal').style.display='flex'">+ Add New</button>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-products-tbody"></tbody>
+                </table>
+            </div>
+
+            <div id="add-product-modal" class="modal-overlay">
+                <div class="modal-content">
+                    <button type="button" class="modal-close"
+                        style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); position: absolute; right: 20px; top: 20px;"
+                        onclick="document.getElementById('add-product-modal').style.display='none'">&times;</button>
+                    <h2 style="margin-top: 0;">Add New Product</h2>
+                    <form onsubmit="window.adminAddProduct(event)">
+                        <div class="form-group"><label>Product Name</label><input type="text" id="add-prod-name"
+                                required></div>
+                        <div class="grid-2" style="gap: 1rem;">
+                            <div class="form-group mb-0"><label>Price (RM)</label><input type="number" step="0.01" min="0"
+                                    id="add-prod-price" required></div>
+                            <div class="form-group mb-0"><label>Stock Amount</label><input type="number" min="0" step="1"
+                                    id="add-prod-stock" value="10" required></div>
+                        </div>
+                        <div class="form-group mt-2">
+                            <label>Category</label>
+                            <select id="add-prod-cat" required
+                                style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius);"></select>
+                        </div>
+                        <div class="form-group"><label>Description</label><textarea id="add-prod-desc"
+                                required></textarea></div>
+                        <button type="submit" class="btn" style="width: 100%;">Add Product</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="edit-product-modal" class="modal-overlay">
+                <div class="modal-content">
+                    <button type="button" class="modal-close"
+                        style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); position: absolute; right: 20px; top: 20px;"
+                        onclick="document.getElementById('edit-product-modal').style.display='none'">&times;</button>
+                    <h2 style="margin-top: 0;">Edit Product</h2>
+                    <form onsubmit="window.saveProductEdit(event)">
+                        <input type="hidden" id="edit-prod-id">
+                        <div class="form-group"><label>Product Name</label><input type="text" id="edit-prod-name"
+                                required></div>
+                        <div class="grid-2" style="gap: 1rem;">
+                            <div class="form-group mb-0"><label>Price (RM)</label><input type="number" step="0.01" min="0"
+                                    id="edit-prod-price" required></div>
+                            <div class="form-group mb-0"><label>Stock</label><input type="number" min="0" step="1" id="edit-prod-stock"
+                                    required></div>
+                        </div>
+                        <div class="form-group mt-2">
+                            <label>Category</label>
+                            <select id="edit-prod-cat" required
+                                style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius);"></select>
+                        </div>
+                        <div class="form-group"><label>Description</label><textarea id="edit-prod-desc"
+                                required></textarea></div>
+                        <button type="submit" class="btn" style="width: 100%;">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="toast-container" class="toast-container"></div>
+    <footer>
+        <p>&copy; 2026 GeckoStore. All rights reserved.</p>
+    </footer>
+    <script src="app.js"></script>
+</body>
+
+</html>

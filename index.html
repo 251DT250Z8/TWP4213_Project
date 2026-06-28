@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>GeckoStore - Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <input type="checkbox" id="admin-state" style="display: none;">
+    <input type="checkbox" id="customer-state" style="display: none;">
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo default-logo">GeckoStore</a>
+            <a href="dashboard.html" class="logo customer-logo">GeckoStore</a>
+            <a href="admin-dashboard.html" class="logo admin-logo">GeckoStore</a>
+            <nav>
+                <ul>
+                    <li class="logged-in-nav"><a href="dashboard.html">Dashboard</a></li>
+                    <li class="admin-panel-nav"><a href="admin-dashboard.html">Dashboard</a></li>
+
+                    <li class="customer-hide public-nav"><a href="index.html">Home</a></li>
+                    <li class="public-nav"><a href="about.html">About Us</a></li>
+                    <li class="public-nav"><a href="products.html">Products</a></li>
+                    <li class="public-nav"><a href="contact.html">Contact</a></li>
+                    <li class="guest-nav"><a href="login.html" class="btn" style="padding: 0.5rem 1.5rem;">Login</a>
+                    </li>
+
+                    <li class="logged-in-nav"><a href="cart.html">Cart</a></li>
+                    <li class="logged-in-nav"><a href="profile.html">Profile</a></li>
+                    <li class="logged-in-nav"><a href="javascript:void(0)" onclick="window.handleLogout()"
+                            style="color: #fca5a5;">Logout</a></li>
+
+                    <li class="admin-panel-nav"><a href="manage-product.html">Products</a></li>
+                    <li class="admin-panel-nav"><a href="manage-order.html">Orders</a></li>
+                    <li class="admin-panel-nav"><a href="manage-member.html">Customers</a></li>
+                    <li class="admin-panel-nav"><a href="manage-category.html">Categories</a></li>
+                    <li class="admin-panel-nav"><a href="manage-admin.html">Admins</a></li>
+                    <li class="admin-panel-nav"><a href="sales-report.html">Reports</a></li>
+                    <li class="admin-panel-nav"><a href="profile.html">Profile</a></li>
+                    <li class="admin-panel-nav"><a href="javascript:void(0)" onclick="window.handleLogout()"
+                            style="color: #fca5a5;">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="main-content">
+        <section class="page-section" style="padding: 0; box-shadow: none; background: transparent;">
+            <div
+                style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 4rem 2rem; border-radius: var(--radius); text-align: center; margin-bottom: 2rem;">
+                <h1 style="color: white;">Welcome to GeckoStore</h1>
+                <p style="color: #e2e8f0; max-width: 600px; margin: 0 auto 2rem;">Premium geckos, custom enclosures, and
+                    nutritious food.</p>
+                <a href="products.html" class="btn" style="background: white; color: var(--primary);">View Catalog</a>
+            </div>
+            <div class="grid-3 text-center">
+                <div class="card" style="padding: 2rem;">
+                    <h3>Fast Delivery</h3>
+                    <p>Free shipping on orders over RM50.</p>
+                </div>
+                <div class="card" style="padding: 2rem;">
+                    <h3>Secure Payment</h3>
+                    <p>100% secure payment processing.</p>
+                </div>
+                <div class="card" style="padding: 2rem;">
+                    <h3>24/7 Support</h3>
+                    <p>Dedicated support anytime you need.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="toast-container" class="toast-container"></div>
+    <footer>
+        <p>&copy; 2026 GeckoStore. All rights reserved.</p>
+    </footer>
+    <script src="app.js"></script>
+</body>
+
+</html>

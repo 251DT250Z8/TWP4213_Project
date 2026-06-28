@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>GeckoStore - Sales Report</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <input type="checkbox" id="admin-state" style="display: none;">
+    <input type="checkbox" id="customer-state" style="display: none;">
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo default-logo">GeckoStore</a>
+            <a href="dashboard.html" class="logo customer-logo">GeckoStore</a>
+            <a href="admin-dashboard.html" class="logo admin-logo">GeckoStore</a>
+            <nav>
+                <ul>
+                    <li class="logged-in-nav"><a href="dashboard.html">Dashboard</a></li>
+                    <li class="admin-panel-nav"><a href="admin-dashboard.html">Dashboard</a></li>
+
+                    <li class="customer-hide public-nav"><a href="index.html">Home</a></li>
+                    <li class="public-nav"><a href="about.html">About Us</a></li>
+                    <li class="public-nav"><a href="products.html">Products</a></li>
+                    <li class="public-nav"><a href="contact.html">Contact</a></li>
+                    <li class="guest-nav"><a href="login.html" class="btn" style="padding: 0.5rem 1.5rem;">Login</a>
+                    </li>
+
+                    <li class="logged-in-nav"><a href="cart.html">Cart</a></li>
+                    <li class="logged-in-nav"><a href="profile.html">Profile</a></li>
+                    <li class="logged-in-nav"><a href="javascript:void(0)" onclick="window.handleLogout()"
+                            style="color: #fca5a5;">Logout</a></li>
+
+                    <li class="admin-panel-nav"><a href="manage-product.html">Products</a></li>
+                    <li class="admin-panel-nav"><a href="manage-order.html">Orders</a></li>
+                    <li class="admin-panel-nav"><a href="manage-member.html">Customers</a></li>
+                    <li class="admin-panel-nav"><a href="manage-category.html">Categories</a></li>
+                    <li class="admin-panel-nav"><a href="manage-admin.html">Admins</a></li>
+                    <li class="admin-panel-nav"><a href="sales-report.html">Reports</a></li>
+                    <li class="admin-panel-nav"><a href="profile.html">Profile</a></li>
+                    <li class="admin-panel-nav"><a href="javascript:void(0)" onclick="window.handleLogout()"
+                            style="color: #fca5a5;">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="main-content">
+        <section class="page-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h2>Sales Report</h2>
+                <div style="display: flex; gap: 1rem;">
+                    <select id="report-month" class="modern-select" onchange="window.updateChart()"
+                        style="padding: 0.5rem; border-radius: var(--radius);">
+                        <option value="all">All Months</option>
+                        <option value="0">January</option>
+                        <option value="1">February</option>
+                        <option value="2">March</option>
+                        <option value="3">April</option>
+                        <option value="4">May</option>
+                        <option value="5">June</option>
+                        <option value="6">July</option>
+                        <option value="7">August</option>
+                        <option value="8">September</option>
+                        <option value="9">October</option>
+                        <option value="10">November</option>
+                        <option value="11">December</option>
+                    </select>
+                    <button type="button" class="btn" onclick="window.print()">Print Report</button>
+                </div>
+            </div>
+            <div style="height:400px; width:100%"><canvas id="salesChart"></canvas></div>
+        </section>
+    </main>
+    <div id="toast-container" class="toast-container"></div>
+    <footer>
+        <p>&copy; 2026 GeckoStore. All rights reserved.</p>
+    </footer>
+    <script src="app.js"></script>
+</body>
+
+</html>

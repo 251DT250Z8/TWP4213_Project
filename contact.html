@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>GeckoStore - Contact</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <input type="checkbox" id="admin-state" style="display: none;">
+    <input type="checkbox" id="customer-state" style="display: none;">
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo default-logo">GeckoStore</a>
+            <a href="dashboard.html" class="logo customer-logo">GeckoStore</a>
+            <a href="admin-dashboard.html" class="logo admin-logo">GeckoStore</a>
+            <nav>
+                <ul>
+                    <li class="logged-in-nav"><a href="dashboard.html">Dashboard</a></li>
+                    <li class="admin-panel-nav"><a href="admin-dashboard.html">Dashboard</a></li>
+
+                    <li class="customer-hide public-nav"><a href="index.html">Home</a></li>
+                    <li class="public-nav"><a href="about.html">About Us</a></li>
+                    <li class="public-nav"><a href="products.html">Products</a></li>
+                    <li class="public-nav"><a href="contact.html">Contact</a></li>
+                    <li class="guest-nav"><a href="login.html" class="btn" style="padding: 0.5rem 1.5rem;">Login</a>
+                    </li>
+
+                    <li class="logged-in-nav"><a href="cart.html">Cart</a></li>
+                    <li class="logged-in-nav"><a href="profile.html">Profile</a></li>
+                    <li class="logged-in-nav"><a href="javascript:void(0)" onclick="window.handleLogout()"
+                            style="color: #fca5a5;">Logout</a></li>
+
+                    <li class="admin-panel-nav"><a href="manage-product.html">Products</a></li>
+                    <li class="admin-panel-nav"><a href="manage-order.html">Orders</a></li>
+                    <li class="admin-panel-nav"><a href="manage-member.html">Customers</a></li>
+                    <li class="admin-panel-nav"><a href="manage-category.html">Categories</a></li>
+                    <li class="admin-panel-nav"><a href="manage-admin.html">Admins</a></li>
+                    <li class="admin-panel-nav"><a href="sales-report.html">Reports</a></li>
+                    <li class="admin-panel-nav"><a href="profile.html">Profile</a></li>
+                    <li class="admin-panel-nav"><a href="javascript:void(0)" onclick="window.handleLogout()"
+                            style="color: #fca5a5;">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="main-content">
+        <section class="page-section">
+            <h2>Contact Us</h2>
+            <div class="grid-2">
+                <div>
+                    <h3>Our Location</h3>
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127482.68417772658!2d101.61694931448003!3d3.13849652251147!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc362bfc083ceZ%3A0x44d9e6eb71d2b861!2sKuala%20Lumpur%2C%20Federal%20Territory%20of%20Kuala%20Lumpur%2C%20Malaysia!5e0!3m2!1sen!2smy!4v1717315123456!5m2!1sen!2smy"
+                        width="100%" height="300"
+                        style="border:0; border-radius: var(--radius); margin-bottom: 1rem; background: #e2e8f0;"
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <p>Kuala Lumpur, Malaysia</p>
+                </div>
+                <div>
+                    <h3>Send a message</h3>
+                    <form onsubmit="event.preventDefault(); window.showToast('Message sent!');">
+                        <div class="form-group"><label>Email</label><input type="email" required></div>
+                        <div class="form-group"><label>Message</label><textarea required></textarea></div>
+                        <button type="submit" class="btn">Send</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="toast-container" class="toast-container"></div>
+    <footer>
+        <p>&copy; 2026 GeckoStore. All rights reserved.</p>
+    </footer>
+    <script src="app.js"></script>
+</body>
+
+</html>

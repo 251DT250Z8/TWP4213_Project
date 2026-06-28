@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>GeckoStore - Checkout</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <input type="checkbox" id="admin-state" style="display: none;">
+    <input type="checkbox" id="customer-state" style="display: none;">
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo default-logo">GeckoStore</a>
+            <a href="dashboard.html" class="logo customer-logo">GeckoStore</a>
+            <a href="admin-dashboard.html" class="logo admin-logo">GeckoStore</a>
+            <nav>
+                <ul>
+                    <li class="logged-in-nav"><a href="dashboard.html">Dashboard</a></li>
+                    <li class="admin-panel-nav"><a href="admin-dashboard.html">Dashboard</a></li>
+
+                    <li class="customer-hide public-nav"><a href="index.html">Home</a></li>
+                    <li class="public-nav"><a href="about.html">About Us</a></li>
+                    <li class="public-nav"><a href="products.html">Products</a></li>
+                    <li class="public-nav"><a href="contact.html">Contact</a></li>
+                    <li class="guest-nav"><a href="login.html" class="btn" style="padding: 0.5rem 1.5rem;">Login</a>
+                    </li>
+
+                    <li class="logged-in-nav"><a href="cart.html">Cart</a></li>
+                    <li class="logged-in-nav"><a href="profile.html">Profile</a></li>
+                    <li class="logged-in-nav"><a href="javascript:void(0)" onclick="window.handleLogout()"
+                            style="color: #fca5a5;">Logout</a></li>
+
+                    <li class="admin-panel-nav"><a href="manage-product.html">Products</a></li>
+                    <li class="admin-panel-nav"><a href="manage-order.html">Orders</a></li>
+                    <li class="admin-panel-nav"><a href="manage-member.html">Customers</a></li>
+                    <li class="admin-panel-nav"><a href="manage-category.html">Categories</a></li>
+                    <li class="admin-panel-nav"><a href="manage-admin.html">Admins</a></li>
+                    <li class="admin-panel-nav"><a href="sales-report.html">Reports</a></li>
+                    <li class="admin-panel-nav"><a href="profile.html">Profile</a></li>
+                    <li class="admin-panel-nav"><a href="javascript:void(0)" onclick="window.handleLogout()"
+                            style="color: #fca5a5;">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="main-content">
+        <section class="page-section">
+            <h2>Checkout & Payment</h2>
+            <form onsubmit="window.handleCheckout(event)">
+                <div class="form-group"><label>Full Name</label><input type="text" id="checkout-name" required></div>
+                <div class="form-group">
+                    <label>Credit Card Number</label>
+                    <input type="text" id="checkout-card" placeholder="XXXX XXXX XXXX XXXX" pattern="\d{4} \d{4} \d{4} \d{4}"
+                        maxlength="19" oninput="window.formatCardNumber(this)" required>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Expiry Date</label>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <select id="checkout-exp-month" required style="width: 50%;">
+                                <option value="" disabled selected>MM</option>
+                                <option>01</option>
+                                <option>02</option>
+                                <option>03</option>
+                                <option>04</option>
+                                <option>05</option>
+                                <option>06</option>
+                                <option>07</option>
+                                <option>08</option>
+                                <option>09</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                            </select>
+                            <select id="checkout-exp-year" required style="width: 50%;">
+                                <option value="" disabled selected>YYYY</option>
+                                <option>2026</option>
+                                <option>2027</option>
+                                <option>2028</option>
+                                <option>2029</option>
+                                <option>2030</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>CVV / CVC</label>
+                        <input type="text" id="checkout-cvv" placeholder="123" pattern="\d{3}" maxlength="3"
+                            oninput="this.value = this.value.replace(/\D/g, '').slice(0, 3)" required>
+                    </div>
+                </div>
+                <h3 class="mt-2">Total to Pay: <span id="checkout-total-display">RM0.00</span></h3>
+                <button type="submit" class="btn">Pay Now</button>
+            </form>
+        </section>
+    </main>
+    <div id="toast-container" class="toast-container"></div>
+    <footer>
+        <p>&copy; 2026 GeckoStore. All rights reserved.</p>
+    </footer>
+    <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,9 @@
+system test default
+
+admin
+email: admin@system.com
+password: admin123
+
+customer
+email: customer@example.com
+password: password123

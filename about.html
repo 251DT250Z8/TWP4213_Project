@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>GeckoStore - About Us</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <input type="checkbox" id="admin-state" style="display: none;">
+    <input type="checkbox" id="customer-state" style="display: none;">
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo default-logo">GeckoStore</a>
+            <a href="dashboard.html" class="logo customer-logo">GeckoStore</a>
+            <a href="admin-dashboard.html" class="logo admin-logo">GeckoStore</a>
+            <nav>
+                <ul>
+                    <li class="logged-in-nav"><a href="dashboard.html">Dashboard</a></li>
+                    <li class="admin-panel-nav"><a href="admin-dashboard.html">Dashboard</a></li>
+
+                    <li class="customer-hide public-nav"><a href="index.html">Home</a></li>
+                    <li class="public-nav"><a href="about.html">About Us</a></li>
+                    <li class="public-nav"><a href="products.html">Products</a></li>
+                    <li class="public-nav"><a href="contact.html">Contact</a></li>
+                    <li class="guest-nav"><a href="login.html" class="btn" style="padding: 0.5rem 1.5rem;">Login</a>
+                    </li>
+
+                    <li class="logged-in-nav"><a href="cart.html">Cart</a></li>
+                    <li class="logged-in-nav"><a href="profile.html">Profile</a></li>
+                    <li class="logged-in-nav"><a href="javascript:void(0)" onclick="window.handleLogout()"
+                            style="color: #fca5a5;">Logout</a></li>
+
+                    <li class="admin-panel-nav"><a href="manage-product.html">Products</a></li>
+                    <li class="admin-panel-nav"><a href="manage-order.html">Orders</a></li>
+                    <li class="admin-panel-nav"><a href="manage-member.html">Customers</a></li>
+                    <li class="admin-panel-nav"><a href="manage-category.html">Categories</a></li>
+                    <li class="admin-panel-nav"><a href="manage-admin.html">Admins</a></li>
+                    <li class="admin-panel-nav"><a href="sales-report.html">Reports</a></li>
+                    <li class="admin-panel-nav"><a href="profile.html">Profile</a></li>
+                    <li class="admin-panel-nav"><a href="javascript:void(0)" onclick="window.handleLogout()"
+                            style="color: #fca5a5;">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="main-content">
+        <section class="page-section">
+            <h2>About Us</h2>
+            <div class="grid-3 mt-2">
+                <div class="card text-center">
+                    <img src="img/profile/Lim_Ka_Sing.png" alt="Lim Ka Sing" class="card-img"
+                        style="border-radius: 50%; width: 150px; height: 150px; margin: 1.5rem auto 0; object-fit: cover; background: #94a3b8;"
+                        onerror="window.handleImageError(this, 'https://placehold.co/150x150/94a3b8/ffffff?text=Photo')">
+                    <div class="card-body">
+                        <h3>Lim Ka Sing</h3>
+                        <p>Team Leader</p><a href="mailto:LIM.KA.SING@student.mmu.edu.my" class="btn btn-outline"
+                            style="width:100%">Contact</a>
+                    </div>
+                </div>
+
+                <div class="card text-center">
+                    <img src="img/profile/Shaun_Lim_Yuanzhe.jpeg" alt="Shaun Lim Yuanzhe" class="card-img"
+                        style="border-radius: 50%; width: 150px; height: 150px; margin: 1.5rem auto 0; object-fit: cover; background: #94a3b8;"
+                        onerror="window.handleImageError(this, 'https://placehold.co/150x150/94a3b8/ffffff?text=Photo')">
+                    <div class="card-body">
+                        <h3>Shaun Lim Yuanzhe</h3>
+                        <p>Team Member</p><a href="mailto:SHAUN.LIM.YUANZHE@student.mmu.edu.my" class="btn btn-outline"
+                            style="width:100%">Contact</a>
+                    </div>
+                </div>
+
+                <div class="card text-center">
+                    <img src="img/profile/Javier_De_Costa.jpeg" alt="Javier De Costa" class="card-img"
+                        style="border-radius: 50%; width: 150px; height: 150px; margin: 1.5rem auto 0; object-fit: cover; background: #94a3b8;"
+                        onerror="window.handleImageError(this, 'https://placehold.co/150x150/94a3b8/ffffff?text=Photo')">
+                    <div class="card-body">
+                        <h3>Javier De Costa</h3>
+                        <p>Team Member</p><a href="mailto:JAVIER.DE.COSTA@student.mmu.edu.my" class="btn btn-outline"
+                            style="width:100%">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="toast-container" class="toast-container"></div>
+    <footer>
+        <p>&copy; 2026 GeckoStore. All rights reserved.</p>
+    </footer>
+    <script src="app.js"></script>
+</body>
+
+</html>
