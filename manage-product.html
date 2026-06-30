@@ -2,6 +2,8 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GeckoStore - Manage Product</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -76,10 +78,10 @@
                         <div class="form-group"><label>Product Name</label><input type="text" id="add-prod-name"
                                 required></div>
                         <div class="grid-2" style="gap: 1rem;">
-                            <div class="form-group mb-0"><label>Price (RM)</label><input type="number" step="0.01" min="0"
-                                    id="add-prod-price" required></div>
-                            <div class="form-group mb-0"><label>Stock Amount</label><input type="number" min="0" step="1"
-                                    id="add-prod-stock" value="10" required></div>
+                            <div class="form-group mb-0"><label>Price (RM)</label><input type="number" step="0.01"
+                                    min="0" id="add-prod-price" required></div>
+                            <div class="form-group mb-0"><label>Stock Amount</label><input type="number" min="0"
+                                    step="1" id="add-prod-stock" value="10" required></div>
                         </div>
                         <div class="form-group mt-2">
                             <label>Category</label>
@@ -104,10 +106,10 @@
                         <div class="form-group"><label>Product Name</label><input type="text" id="edit-prod-name"
                                 required></div>
                         <div class="grid-2" style="gap: 1rem;">
-                            <div class="form-group mb-0"><label>Price (RM)</label><input type="number" step="0.01" min="0"
-                                    id="edit-prod-price" required></div>
-                            <div class="form-group mb-0"><label>Stock</label><input type="number" min="0" step="1" id="edit-prod-stock"
-                                    required></div>
+                            <div class="form-group mb-0"><label>Price (RM)</label><input type="number" step="0.01"
+                                    min="0" id="edit-prod-price" required></div>
+                            <div class="form-group mb-0"><label>Stock</label><input type="number" min="0" step="1"
+                                    id="edit-prod-stock" required></div>
                         </div>
                         <div class="form-group mt-2">
                             <label>Category</label>
@@ -124,7 +126,7 @@
     </main>
     <div id="toast-container" class="toast-container"></div>
     <footer>
-        <p>&copy; 2026 GeckoStore. All rights reserved.</p>
+        <p>© 2026 GeckoStore. All rights reserved.</p>
     </footer>
     <script src="app.js"></script>
 </body>
