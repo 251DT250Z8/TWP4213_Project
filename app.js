@@ -36,10 +36,9 @@ const apiCall = async (action, data = {}) => {
     } catch (e) { return { success: false, error: 'Server communication error.' }; }
 };
 
-// Sync state from Database with fault-tolerant mapping
+// Sync state from Database
 const fetchStoreData = async () => {
     try {
-        // Appended timestamp completely bypasses browser cache so you see live DB data
         const res = await fetch(`${API_URL}?action=getAll&t=${new Date().getTime()}`);
         const text = await res.text();
         
@@ -53,14 +52,14 @@ const fetchStoreData = async () => {
         }
 
         if (data.error) {
+            console.error("Database Error:", data.error);
             alert("Database Error: " + data.error);
             return;
         }
 
-        localUsers = data.users || [];
-        localCategories = data.categories || [];
+        localUsers = (data.users || []).map(u => ({ ...u, id: parseInt(u.id), addr1: u.addr1 || u.add1 || '' }));
+        localCategories = (data.categories || []).map(c => ({ ...c, id: parseInt(c.id) }));
         
-        // Dynamic mapping handles BOTH old database structure and new structure
         localProducts = (data.products || []).map(p => {
             let catMatch = p.category_id !== undefined ? p.category_id : p.category;
             return {
@@ -84,7 +83,7 @@ const fetchStoreData = async () => {
         }
     } catch (e) { 
         console.error("Fetch failed.", e); 
-        alert("Network Error: Could not connect to API. Are you using http://localhost ?");
+        alert("Network Error: Could not connect to API.");
     }
 };
 
@@ -193,41 +192,58 @@ window.handleLogout = () => {
 
 window.handleUpdateProfile = async (event) => {
     event.preventDefault();
+    
     const userId = String(sessionStorage.getItem('loggedInUserId'));
-    const userDoc = localUsers.find(u => String(u.id) === userId);
-    if (!userDoc) return window.showToast('Session expired. Please log in again.', 'error');
+    if (!userId || userId === 'null') {
+        return window.showToast('Session expired. Please log in again.', 'error');
+    }
 
     const updatePayload = {
         id: userId,
-        firstName: document.getElementById('prof-fname').value.trim(),
-        lastName: document.getElementById('prof-lname').value.trim(),
-        phoneExt: document.getElementById('prof-phone-ext').value,
-        phone: document.getElementById('prof-phone').value,
-        addr1: document.getElementById('prof-addr1').value,
-        city: document.getElementById('prof-city').value,
-        state: document.getElementById('prof-state').value,
-        zip: document.getElementById('prof-zip').value,
-        country: document.getElementById('prof-country').value,
-        password: ''
+        firstName: document.getElementById('prof-fname')?.value.trim() || '',
+        lastName: document.getElementById('prof-lname')?.value.trim() || '',
+        phoneExt: document.getElementById('prof-phone-ext')?.value || '+60',
+        phone: document.getElementById('prof-phone')?.value.trim() || '',
+        addr1: document.getElementById('prof-addr1')?.value.trim() || '',
+        city: document.getElementById('prof-city')?.value.trim() || '',
+        state: document.getElementById('prof-state')?.value.trim() || '',
+        zip: document.getElementById('prof-zip')?.value.trim() || '',
+        country: document.getElementById('prof-country')?.value || 'Malaysia',
+        password: '',
+        currentPassword: ''
     };
 
+    const currentPass = document.getElementById('prof-current-pass')?.value || '';
     const newPass = document.getElementById('prof-new-pass')?.value || '';
     const confirmPass = document.getElementById('prof-confirm-pass')?.value || '';
-    if (newPass || confirmPass) {
-        if (!newPass || !confirmPass) return window.showToast('Please fill out both password fields to change it.', 'error');
-        if (newPass !== confirmPass) return window.showToast('Your new passwords do not match.', 'error');
+
+    if (currentPass || newPass || confirmPass) {
+        if (!currentPass || !newPass || !confirmPass) {
+            return window.showToast('Please fill out all 3 password fields to change your password.', 'error');
+        }
+        if (newPass !== confirmPass) {
+            return window.showToast('Your new passwords do not match.', 'error');
+        }
         updatePayload.password = newPass;
+        updatePayload.currentPassword = currentPass;
     }
 
     const result = await apiCall('updateProfile', { user: updatePayload });
+    
     if (result.success) {
         window.showToast('Profile successfully updated.', 'success');
-        if (document.getElementById('prof-new-pass')) {
-            document.getElementById('prof-new-pass').value = '';
-            document.getElementById('prof-confirm-pass').value = '';
-        }
-        setTimeout(() => { window.location.href = sessionStorage.getItem('isAdmin') === 'true' ? 'admin-dashboard.html' : 'dashboard.html'; }, 800);
-    } else { window.showToast('Failed to update profile.', 'error'); }
+        if (document.getElementById('prof-current-pass')) document.getElementById('prof-current-pass').value = '';
+        if (document.getElementById('prof-new-pass')) document.getElementById('prof-new-pass').value = '';
+        if (document.getElementById('prof-confirm-pass')) document.getElementById('prof-confirm-pass').value = '';
+        
+        await fetchStoreData();
+
+        setTimeout(() => { 
+            window.location.href = sessionStorage.getItem('isAdmin') === 'true' ? 'admin-dashboard.html' : 'dashboard.html'; 
+        }, 800);
+    } else { 
+        window.showToast(result.error || 'Failed to update profile.', 'error'); 
+    }
 };
 
 // --- DATA RENDERING FUNCTIONS ---
@@ -572,11 +588,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // Initialize Profile Data from DB
     if (currentFile === 'profile.html') {
         const emailInput = document.getElementById('prof-email');
         if (emailInput) emailInput.value = sessionStorage.getItem('loggedInEmail') || '';
+        
         const userId = String(sessionStorage.getItem('loggedInUserId'));
         const user = localUsers.find(u => String(u.id) === userId);
+        
         if (user) {
             if (document.getElementById('prof-fname')) document.getElementById('prof-fname').value = user.firstName || '';
             if (document.getElementById('prof-lname')) document.getElementById('prof-lname').value = user.lastName || '';

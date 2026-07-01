@@ -10,7 +10,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 $host = 'localhost';
 $db_name = 'geckostore';
-$username = 'root'; // Update if you have a specific DB password
+$username = 'root';
 $password = ''; 
 
 try {
@@ -33,8 +33,17 @@ $action = isset($input['action']) ? $input['action'] : (isset($_GET['action']) ?
 try {
     switch($action) {
         case 'getAll':
-            // Users
-            $users = $pdo->query("SELECT * FROM users")->fetchAll(PDO::FETCH_ASSOC);
+            // Users - Select all to avoid column mismatch, then filter passwords out
+            $usersRaw = $pdo->query("SELECT * FROM users")->fetchAll(PDO::FETCH_ASSOC);
+            $users = [];
+            foreach($usersRaw as $u) {
+                unset($u['password']);
+                // Normalize add1 to addr1 for the frontend JavaScript
+                if (isset($u['add1']) && !isset($u['addr1'])) {
+                    $u['addr1'] = $u['add1'];
+                }
+                $users[] = $u;
+            }
             
             // Categories
             $categories = $pdo->query("SELECT * FROM categories")->fetchAll(PDO::FETCH_ASSOC);
@@ -71,8 +80,12 @@ try {
             $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? AND password = ?");
             $stmt->execute([$input['email'], $input['password']]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($user) echo json_encode(["success" => true, "user" => $user]);
-            else echo json_encode(["success" => false, "error" => "Invalid email or password"]);
+            if ($user) {
+                unset($user['password']); // Do not send password back to JS
+                echo json_encode(["success" => true, "user" => $user]);
+            } else {
+                echo json_encode(["success" => false, "error" => "Invalid email or password"]);
+            }
             break;
 
         case 'register':
@@ -90,11 +103,33 @@ try {
 
         case 'updateProfile':
             $u = $input['user'];
-            if (!empty($u['password'])) {
-                $stmt = $pdo->prepare("UPDATE users SET firstName=?, lastName=?, phoneExt=?, phone=?, addr1=?, city=?, state=?, zip=?, country=?, password=? WHERE id=?");
+            
+            // 1. Verify User Exists
+            $stmt = $pdo->prepare("SELECT id, password FROM users WHERE id=?");
+            $stmt->execute([$u['id']]);
+            $dbUser = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if (!$dbUser) {
+                echo json_encode(["success" => false, "error" => "User account not found."]);
+                break;
+            }
+
+            // Dynamically check if the column in DB is add1 or addr1
+            $colCheck = $pdo->query("SHOW COLUMNS FROM users LIKE 'add1'");
+            $addressCol = $colCheck->rowCount() > 0 ? 'add1' : 'addr1';
+
+            // 2. Handle Password Change (If Requested)
+            if (!empty($u['password']) && !empty($u['currentPassword'])) {
+                if ($dbUser['password'] !== $u['currentPassword']) {
+                    echo json_encode(["success" => false, "error" => "Your Current Password is incorrect."]);
+                    break;
+                }
+                // Update with new password
+                $stmt = $pdo->prepare("UPDATE users SET firstName=?, lastName=?, phoneExt=?, phone=?, $addressCol=?, city=?, state=?, zip=?, country=?, password=? WHERE id=?");
                 $stmt->execute([$u['firstName'], $u['lastName'], $u['phoneExt'], $u['phone'], $u['addr1'], $u['city'], $u['state'], $u['zip'], $u['country'], $u['password'], $u['id']]);
             } else {
-                $stmt = $pdo->prepare("UPDATE users SET firstName=?, lastName=?, phoneExt=?, phone=?, addr1=?, city=?, state=?, zip=?, country=? WHERE id=?");
+                // Standard profile update (No password change)
+                $stmt = $pdo->prepare("UPDATE users SET firstName=?, lastName=?, phoneExt=?, phone=?, $addressCol=?, city=?, state=?, zip=?, country=? WHERE id=?");
                 $stmt->execute([$u['firstName'], $u['lastName'], $u['phoneExt'], $u['phone'], $u['addr1'], $u['city'], $u['state'], $u['zip'], $u['country'], $u['id']]);
             }
             echo json_encode(["success" => true]);
@@ -139,7 +174,6 @@ try {
             break;
 
         case 'updateProductStock':
-            // Safely subtract stock. GREATEST(0) prevents the stock from ever dropping below 0.
             $stmt = $pdo->prepare("UPDATE products SET stock = GREATEST(0, stock - ?) WHERE id = ?");
             $stmt->execute([$input['qty'], $input['id']]);
             echo json_encode(["success" => true]);
